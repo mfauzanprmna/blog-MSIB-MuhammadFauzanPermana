@@ -13,7 +13,7 @@
     @endif
     </div>
     <h1>{{ $post->title }}</h1>
-    <p>{{ $post->content }}</p>
+    {!! $post->content !!}
 
     <p>Category: {{ $post->category->name }}</p>
     <p>Author: {{ $post->author->name }}</p>

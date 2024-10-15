@@ -7,6 +7,7 @@
     <a href="{{ route('posts.create') }}" class="btn btn-primary mb-2">Buat Post</a>
     <table class="table">
         <tr>
+            <th>No</th>
             <th>Title</th>
             <th>Content</th>
             <th>Image</th>
@@ -18,8 +19,9 @@
         @if ($user->posts->count() > 0)
             @foreach ($user->posts as $post)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $post->title }}</td>
-                    <td>{{ $post->content }}</td>
+                    <td>{!! $post->content !!}</td>
                     <td>
                         @if ($post->image)
                             <img src="{{ asset('storage/post/' . $post->image) }}" alt="{{ $post->title }}" width="100">
@@ -36,13 +38,22 @@
                         @endif
                     </td>
                     <td><span class="p-2 rounded">{{ $post->category->name }}</span></td>
-                    <td >
+                    <td>
                         <a href="{{ route('posts.slug', $post->slug) }}" class="btn btn-primary mb-2">Show</a>
                         <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning mb-2">Edit</a>
                         <form action="{{ route('posts.destroy', $post->id) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                        </form>
+                        <form action="{{ route('posts.publish', $post->id) }}" method="post">
+                            @csrf
+                            @method('PUT')
+                            @if ($post->is_published)
+                                <button type="submit" class="btn btn-secondary">Unpublish</button>
+                            @else
+                                <button type="submit" class="btn btn-primary">Publish</button>
+                            @endif
                         </form>
                     </td>
             @endforeach

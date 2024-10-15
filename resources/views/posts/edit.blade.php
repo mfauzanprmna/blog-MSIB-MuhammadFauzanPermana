@@ -37,8 +37,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select name="category" id="category">
+            <label for="category_id" class="form-label">Category</label>
+            <select name="category_id" id="category_id" class="form-select">
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ $category->id == $post->category_id ? 'selected' : '' }}>
                         {{ $category->name }}</option>

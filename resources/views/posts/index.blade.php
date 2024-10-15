@@ -21,8 +21,8 @@
                     <img src="{{ asset('storage/post/' . $post->image) }}" alt="" class="w-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
-                        <p class="card-text">{{ Str::substr($post->content, 0, 40) }}...</p>
-                        <a href="{{ route('posts.slug', $post->id) }}" class="btn btn-primary">Show</a>
+                        <p class="card-text">{!! Str::substr($post->content, 0, 40) !!}...</p>
+                        <a href="{{ route('posts.slug', $post->slug) }}" class="btn btn-primary">Show</a>
                     </div>
                 </div>
             @endforeach

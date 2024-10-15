@@ -16,11 +16,12 @@ Route::resource('category', CategoryController::class);
 Route::get('/posts', 'App\Http\Controllers\PostController@index')->name('posts.index');
 Route::get('/post/create', 'App\Http\Controllers\PostController@create')->name('posts.create');
 Route::post('/post/store', 'App\Http\Controllers\PostController@store')->name('posts.store');
-Route::get('/post/edit/{id}', 'App\Http\Controllers\PostController@edit')->name('posts.edit');
-Route::post('/post/update/{id}', 'App\Http\Controllers\PostController@updateoupdate')->name('posts.update');
-Route::get('/post/delete/{id}', 'App\Http\Controllers\PostController@destroy')->name('posts.destroy');
-Route::get('/posts/{slug}', 'App\Http\Controllers\PostController@show')->name('posts.slug');
+Route::get('/post/{post}/edit', 'App\Http\Controllers\PostController@edit')->name('posts.edit');
+Route::put('/post/{post}/update', 'App\Http\Controllers\PostController@update')->name('posts.update');
+Route::get('/post/{post}/destroy', 'App\Http\Controllers\PostController@destroy')->name('posts.destroy');
 
+Route::get('/posts/{slug}', 'App\Http\Controllers\PostController@show')->name('posts.slug');
+Route::put('/posts/publish/{post}', 'App\Http\Controllers\PostController@publish')->name('posts.publish');
 Route::get('/posts?id={id}', 'App\Http\Controllers\PostController@index')->name('posts.category');
 
 

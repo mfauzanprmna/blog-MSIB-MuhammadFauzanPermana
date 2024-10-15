@@ -17,9 +17,9 @@ class PostController extends Controller
     public function index()
     {
         if (isset($_GET['id']) && $_GET['id'] != null) {
-            $post = Post::where('category_id', $_GET['id'])->latest()->get();
+            $post = Post::where('category_id', $_GET['id'])->where('is_published', 1)->latest()->get();
         } else {
-            $post = Post::latest()->get();
+            $post = Post::where('is_published', 1)->latest()->get();
         }
         $category = Category::all();
 
@@ -87,8 +87,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $category = Category::all();
         return view('posts.edit', [
-            'post' => $post
+            'post' => $post,
+            'categories' => $category
         ]);
     }
 
@@ -97,12 +99,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $validatedData = $request->validate([
+        $validatedData =  $request->validate([
             'title'         => 'required|string|max:255',
             'content'       => 'required|string',
             'image'         => 'nullable|image|max:2048',
-            'slug'          => 'required|string|max:255',
-            'category_id'   => 'required|exists:categories,id',
+            'category_id'   => 'required',
         ]);
 
         $validatedData['slug'] = Str::slug($validatedData['title'], '-');
@@ -115,13 +116,30 @@ class PostController extends Controller
             }
         }
 
-        $post = Post::create($validatedData);
+        $post = $post->update($validatedData);
 
         if ($post) {
             return redirect()->route('mypost')->with('success', 'Post updated successfully!');
         } else {
             return redirect()->route('mypost')->with('error', 'Failed to update post!');
         }
+    }
+
+    public function publish(Post $post)
+    {
+        if ($post->is_published == 0) {
+            $post->update([
+                'is_published' => 1
+            ]);
+            return redirect()->route('mypost')->with('success', 'Post published successfully!');
+
+        } else {
+            $post->update([
+                'is_published' => 0
+            ]);
+            return redirect()->route('mypost')->with('success', 'Post unpublished successfully!');
+        }
+
     }
 
     /**
