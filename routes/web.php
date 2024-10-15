@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    $categories = Category::all();
+    return view('home', compact('categories'));
 })->name('home');
 
 Route::resource('category', CategoryController::class);
@@ -18,7 +20,7 @@ Route::get('/post/create', 'App\Http\Controllers\PostController@create')->name('
 Route::post('/post/store', 'App\Http\Controllers\PostController@store')->name('posts.store');
 Route::get('/post/{post}/edit', 'App\Http\Controllers\PostController@edit')->name('posts.edit');
 Route::put('/post/{post}/update', 'App\Http\Controllers\PostController@update')->name('posts.update');
-Route::get('/post/{post}/destroy', 'App\Http\Controllers\PostController@destroy')->name('posts.destroy');
+Route::delete('/post/{post}/destroy', 'App\Http\Controllers\PostController@destroy')->name('posts.destroy');
 
 Route::get('/posts/{slug}', 'App\Http\Controllers\PostController@show')->name('posts.slug');
 Route::put('/posts/publish/{post}', 'App\Http\Controllers\PostController@publish')->name('posts.publish');

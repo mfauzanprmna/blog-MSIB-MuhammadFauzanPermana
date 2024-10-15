@@ -67,5 +67,94 @@
 @endsection
 
 @section('content')
+    @foreach ($categories as $category)
+        <h3>{{ $category->name }}</h3>
 
+        <div id="cardCarousel{{ $category->id }}" class="carousel slide">
+            <div class="carousel-inner">
+                @foreach ($category->posts->chunk(4) as $post)
+                    <!-- Split cards into groups of 4 -->
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                        <div class="row">
+                            @foreach ($post as $data)
+                                <div class="col-md-3">
+                                    <div class="card mb-4">
+                                        <img src="{{ asset('storage/post/' . $data->image) }}" class="card-img-top"
+                                            alt="Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $data->title }}</h5>
+                                            <p class="card-text">{!! Str::substr($data->content, 0, 40) !!}...</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel{{ $category->id }}"
+                data-bs-slide="prev">
+                <i class="fa-solid fa-circle-chevron-left"></i>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel{{ $category->id }}"
+                data-bs-slide="next">
+                <i class="fa-solid fa-circle-chevron-right"></i>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    @endforeach
 @endSection
+
+
+
+@section('css')
+
+    <style>
+        @foreach ($categories as $category)
+            #cardCarousel{{ $category->id }}:hover .carousel-control-prev,
+            #cardCarousel{{ $category->id }}:hover .carousel-control-next {
+                opacity: 100%;
+                transition: opacity 0.5s ease;
+            }
+        @endforeach
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 1);
+            /* Semi-transparent background */
+            border-radius: 50%;
+            /* Make it round */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Add shadow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            opacity: 0;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            font-size: 20px;
+            color: white;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Darken background on hover */
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background: none;
+            /* Remove default background image */
+        }
+    </style>
+@endsection

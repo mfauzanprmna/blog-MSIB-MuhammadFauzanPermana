@@ -5,17 +5,19 @@
 @section('content')
 
     <a href="{{ route('posts.create') }}" class="btn btn-primary mb-2">Buat Post</a>
-    <table class="table">
-        <tr>
-            <th>No</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Image</th>
-            <th>Slug</th>
-            <th>Publish</th>
-            <th>Category</th>
-            <th>Action</th>
-        </tr>
+    <table class="table table-striped table-bordered dataTable" data-page-length='25'>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Image</th>
+                <th>Slug</th>
+                <th>Publish</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
         @if ($user->posts->count() > 0)
             @foreach ($user->posts as $post)
                 <tr>
@@ -60,6 +62,11 @@
         @else
             <tr>
                 <td colspan="6">No posts</td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
             </tr>
         @endif
     </table>

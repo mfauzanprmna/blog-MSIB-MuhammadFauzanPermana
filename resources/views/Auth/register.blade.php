@@ -24,6 +24,15 @@
                 <div class="d-flex flex-row">
                     <div class="form col m-auto">
                         <h3 class="text-center mb-5 mt-3 fw-bold">Register Akun Blog MSIB</h3>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{ route('register.user') }}" method="post">
                             @csrf
                             <div class="mb-3">
@@ -37,6 +46,10 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmed-password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmed-password" name="confirmed-password">
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>

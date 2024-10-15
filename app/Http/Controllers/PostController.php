@@ -50,6 +50,7 @@ class PostController extends Controller
             'title'         => 'required|string|max:255',
             'content'       => 'required|string',
             'image'         => 'nullable|image|max:2048',
+            'is_published'  => 'required',
             'category_id'   => 'required',
         ]);
 
@@ -58,6 +59,7 @@ class PostController extends Controller
             $request->file('image')->storeAs('post', $validatedData['image']);
         }
         
+        $validatedData['is_published'] = $request->is_published == 'on' ? 1 : 0;
         $validatedData['author_id'] = Auth::id();
         $validatedData['slug'] = Str::slug($validatedData['title'], '-');
 

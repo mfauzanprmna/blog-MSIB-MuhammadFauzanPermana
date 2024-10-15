@@ -42,6 +42,11 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <input type="checkbox" id="is_published" name="is_published">
+            <label for="is_published">Published</label>
+        </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

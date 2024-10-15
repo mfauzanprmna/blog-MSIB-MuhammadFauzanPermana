@@ -13,7 +13,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css" />
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5-premium-features/43.2.0/ckeditor5-premium-features.css" />
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/r-3.0.3/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.ckeditor.com/ckeditor5-premium-features/43.2.0/ckeditor5-premium-features.css" />
     <script type="importmap">
         {
             "imports": {
@@ -37,6 +39,8 @@
             min-height: 130px;
         }
     </style>
+
+    @yield('css')
 </head>
 
 <body>
@@ -64,7 +68,8 @@
                     </li>
                     @if (Auth::check())
                         <li class="nav-item">
-                            <a class="nav-link menu {{ request()->routeIs('mypost') ? 'active' : '' }}" href="{{ route('mypost') }}">My Post</a>
+                            <a class="nav-link menu {{ request()->routeIs('mypost') ? 'active' : '' }}"
+                                href="{{ route('mypost') }}">My Post</a>
                         </li>
                     @endif
 
@@ -123,10 +128,13 @@
 
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/r-3.0.3/datatables.min.js"></script>
 
     <script>
         // Initialize CKEditor
@@ -138,6 +146,10 @@
             .catch(error => {
                 console.error('Error during initialization of the editor', error);
             });
+
+        $(document).ready(function() {
+            $('.dataTable').DataTable();
+        });
     </script>
 </body>
 
