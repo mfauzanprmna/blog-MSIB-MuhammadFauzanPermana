@@ -72,26 +72,31 @@
 
         <div id="cardCarousel{{ $category->id }}" class="carousel slide">
             <div class="carousel-inner">
-                @foreach ($category->posts->chunk(4) as $post)
-                    <!-- Split cards into groups of 4 -->
-                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                        <div class="row">
-                            @foreach ($post as $data)
-                                <div class="col-md-3">
-                                    <div class="card mb-4">
-                                        <img src="{{ asset('storage/post/' . $data->image) }}" class="card-img-top"
-                                            alt="Image">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $data->title }}</h5>
-                                            <p class="card-text">{!! Str::substr($data->content, 0, 40) !!}...</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                @if ($category->posts->count() > 0)
+                    @foreach ($category->posts->chunk(4) as $post)
+                        <!-- Split cards into groups of 4 -->
+                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                            <div class="row">
+                                @foreach ($post as $data)
+                                    <div class="col-md-3">
+                                        <div class="card mb-4">
+                                            <img src="{{ asset('storage/post/' . $data->image) }}" class="card-img-top"
+                                                alt="Image">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $data->title }}</h5>
+                                                <p class="card-text">{!! Str::substr($data->content, 0, 40) !!}...</p>
+                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <h5>No Post in Category</h5>
+                @endif
             </div>
 
             <!-- Controls -->
@@ -120,6 +125,13 @@
                 opacity: 100%;
                 transition: opacity 0.5s ease;
             }
+
+            @if ($category->posts->count() < 5)
+                #cardCarousel{{ $category->id }}:hover .carousel-control-prev,
+                #cardCarousel{{ $category->id }}:hover .carousel-control-next {
+                    opacity: 0;
+                }
+            @endif
         @endforeach
 
         .carousel-control-prev,

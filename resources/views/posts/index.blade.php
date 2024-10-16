@@ -17,7 +17,7 @@
     <div class="d-flex flex-wrap">
         @if ($posts->count() > 0)
             @foreach ($posts as $post)
-                <div class="card ms-3 mb-3" style="width: 18rem;">
+                <div class="card ms-3 mb-3" style="width: 16rem;">
                     <img src="{{ asset('storage/post/' . $post->image) }}" alt="" class="w-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>

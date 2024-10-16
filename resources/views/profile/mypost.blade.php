@@ -61,7 +61,9 @@
             @endforeach
         @else
             <tr>
-                <td colspan="6">No posts</td>
+                <td colspan="8">No posts</td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
                 <td class="d-none"></td>
                 <td class="d-none"></td>
                 <td class="d-none"></td>

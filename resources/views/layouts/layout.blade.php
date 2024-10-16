@@ -38,6 +38,10 @@
         .promo-banner {
             min-height: 130px;
         }
+
+        .sectionContent {
+            min-height: 100vh;
+        }
     </style>
 
     @yield('css')
@@ -71,6 +75,13 @@
                             <a class="nav-link menu {{ request()->routeIs('mypost') ? 'active' : '' }}"
                                 href="{{ route('mypost') }}">My Post</a>
                         </li>
+
+                        @if (Auth::user()->role == 'admin')
+                            <li class="nav-item">
+                            <a class="nav-link menu {{ request()->routeIs('category.index') ? 'active' : '' }}"
+                                href="{{ route('category.index') }}">Category</a>
+                        </li>
+                        @endif
                     @endif
 
                 </ul>
@@ -102,10 +113,9 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <a class="dropdown-item" href="profile.html"><i
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="fa-solid fa-user me-2"></i>Profile</a>
-                                <a class="dropdown-item" href="setting.html"><i class="fa-solid fa-gear me-2"></i>My
-                                    Post</a>
+                                <a class="dropdown-item" href="{{ route('changepassword') }}"><i class="fa-solid fa-gear me-2"></i>Change Password</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"><i
                                         class="fa-solid fa-right-from-bracket me-2"></i>Logout</a>
                             </ul>
@@ -120,12 +130,14 @@
 
     @yield('carousel')
 
-    <div class="container mt-3">
+    <div class="container mt-3 sectionContent">
         @yield('content')
     </div>
 
-    <div class="footer">
-
+    <div class="bg-dark text-white mt-5 p-4">
+        <div class="container">
+            <p class="text-center">Copyright &copy; 2023 - {{ date('Y') }}. All rights reserved.</p>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"

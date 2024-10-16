@@ -9,29 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -46,9 +23,16 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    public function index()
+    {
+        return view('profile.index');
+    }
+
     public function edit(User $user)
     {
-        //
+        return view('profile.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -56,34 +40,30 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $request->validate([
+        $validatedData =  $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', 'min:8'],
-            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
-        if ($request->avatar) {
-            $imageName = time() . '.' . $request->avatar->getClientOriginalExtension();
-            $image = $request->avatar->move(public_path('images/avatar'), $imageName);
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'avatar' => $image
-            ]);
-        } else {
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+        if ($request->email != Auth::user()->email) {
+            $validatedData =  $request->validate([
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             ]);
         }
 
+        $file = $request->file('avatar');
+        if ($file) {
+            if ($request->hasFile('avatar')) {
+                $validatedData['avatar'] = $request->name . '-' .time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+                $request->file('avatar')->storeAs('user', $validatedData['avatar'], 'public');
+            }
+        } 
+
+        $user = $user->update($validatedData);
+
         if ($user) {
-            return redirect()->route('users.index')->with('success', 'User updated successfully!');
+            return redirect()->route('profile')->with('success', 'User updated successfully!');
         } else {
-            return redirect()->route('users.index')->with('error', 'Failed to update user!');
+            return redirect()->route('profile')->with('error', 'Failed to update user!');
         }
 
     }
@@ -94,5 +74,29 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function changePassword()
+    {
+        return view('profile.editPassword');
+    }
+
+    public function updatePassword(User $user, Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'string', 'min:8', 'current_password:web'],
+            'password' => ['required', 'string', 'min:8'],
+            'password_confirmation' => ['required', 'same:password'],
+        ]);
+
+        $user = $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        if (!$user) {
+            return redirect()->route('profile')->with('error', 'Failed to update password!');
+        } else {
+            return redirect()->route('profile')->with('success', 'Password updated successfully!');
+        }
     }
 }
