@@ -25,12 +25,17 @@ Route::get('/posts?id={id}', 'App\Http\Controllers\PostController@index')->name(
 
 Route::get('/mypost', 'App\Http\Controllers\UserController@show')->name('mypost');
 
-Route::get('/login', 'App\Http\Controllers\Auth\AuthContoller@login')->name('login')
-    ->middleware('guest');
-Route::post('/login', 'App\Http\Controllers\Auth\AuthContoller@authenticate')->name('login.user');
-Route::get('/register', 'App\Http\Controllers\Auth\AuthContoller@register')->name('register')
-    ->middleware('guest');
-Route::post('/register', 'App\Http\Controllers\Auth\AuthContoller@store')->name('register.user');
+Route::middleware('guest')->group(function () { 
+    Route::get('/login', 'App\Http\Controllers\Auth\AuthContoller@login')->name('login');
+    Route::post('/login', 'App\Http\Controllers\Auth\AuthContoller@authenticate')->name('login.user');
+    Route::get('/register', 'App\Http\Controllers\Auth\AuthContoller@register')->name('register');
+    Route::post('/register', 'App\Http\Controllers\Auth\AuthContoller@store')->name('register.user');
+
+    Route::get('/forgot-password', 'App\Http\Controllers\Auth\PasswordResetController@forgotPassword')->name('forgot-password');
+    Route::post('/forgot-password-act', 'App\Http\Controllers\Auth\PasswordResetController@forgotPasswordAct')->name('forgot-password.act');
+    Route::get('/reset-password/{token}/{email}', 'App\Http\Controllers\Auth\PasswordResetController@resetPassword')->name('password.reset');
+    Route::post('/reset-password-act', 'App\Http\Controllers\Auth\PasswordResetController@resetPasswordAct')->name('password.update');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/post/create', 'App\Http\Controllers\PostController@create')->name('posts.create');

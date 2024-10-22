@@ -20,32 +20,36 @@
 <body>
     <div class="h-100 d-flex">
         <div class="login m-auto">
-        <div class="container shadow-lg p-5">
-            <div class="d-flex flex-row">
-                <div class="col w-100">
-                    <img src="{{ asset('images/msib-kampus-merdeka.png') }}" alt="Laravel" class="img-fluid">
-                </div>
-                <div class="form col m-auto">
-                    <h3 class="text-center mb-5 mt-3 fw-bold">Login Blog MSIB</h3>
-                    <form action="{{ route('login.user') }}" method="post">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
+            <div class="container shadow-lg p-5">
+                <div class="d-flex flex-row">
+                    <div class="col w-100">
+                        <img src="{{ asset('images/msib-kampus-merdeka.png') }}" alt="Laravel" class="img-fluid">
+                    </div>
+                    <div class="form col m-auto">
+                        <h3 class="text-center mb-5 mt-3 fw-bold">Login Blog MSIB</h3>
+                        <form action="{{ route('login.user') }}" method="post">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
+                            <div class="d-flex flex-row">
+                                <button type="submit" class="btn btn-primary col w-100 me-2 mb-2">Login</button>
+                                <a href="/" class="btn btn-secondary col w-100 mb-2">Guest</a>
+                            </div>
+                        </form>
+                        <div class="d-flex justify-content-between">
+                            <p>Ga punya akun? <a href="{{ route('register') }}">Ayo bikin akun</a></p>
+
+                            <a href="{{ route('forgot-password') }}">Lupa Password?</a>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                        <a href="/" class="btn btn-secondary">Guest</a>
-                    </form>
-                    <div class="mt-3">
-                        Ga punya akun? <a href="{{ route('register') }}">Ayo bikin akun</a>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
